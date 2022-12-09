@@ -26,15 +26,9 @@ export function ScreenOne({ navigation }: ScreenOneProps) {
             </label>
             <button
                 style={styles.button}
-                onTap={() => Dialogs.alert("Tapped!")}
-            >
-                Tap me for an alert
-            </button>
-            <button
-                style={styles.button}
                 onTap={auth.login}
             >
-                Go to next screen
+               LOGIN FLOW
             </button>
         </flexboxLayout>
     );
