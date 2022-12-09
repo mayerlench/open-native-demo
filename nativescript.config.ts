@@ -7,5 +7,6 @@ export default {
   android: {
     v8Flags: '--expose_gc',
     markingMode: 'none'
-  }
+  },
+  ignoredNativeDependencies: ['ramda']
 } as NativeScriptConfig;

@@ -3,10 +3,6 @@ const webpack = require("@nativescript/webpack");
 module.exports = (env) => {
 	webpack.init(env);
 
-	webpack.chainWebpack(config => {
-        config.resolve.alias.set('react-native', '@open-native/core');
-    });
-
     const resolvedConfig = webpack.resolveConfig()
     resolvedConfig.resolve.fallback = {
         ...resolvedConfig.resolve.fallback,

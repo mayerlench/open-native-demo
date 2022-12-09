@@ -18,8 +18,8 @@ import SpInAppUpdates, {
     StartUpdateOptions,
 } from 'sp-react-native-in-app-updates';
 
-
-
+// console.log(process.env) // uncomment this line to get env errorß
+ 
 Application.on(Application.resumeEvent, async () => {
     try {
         const inAppUpdates = new SpInAppUpdates(
