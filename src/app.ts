@@ -17,9 +17,11 @@ import SpInAppUpdates, {
     IAUUpdateKind,
     StartUpdateOptions,
 } from 'sp-react-native-in-app-updates';
+import App from './components/App';
 
-// console.log(process.env) // uncomment this line to get env errorß
- 
+ console.log(process.env.TESTENV) // uncomment this line to get env errorß
+ console.log(process.env)
+
 Application.on(Application.resumeEvent, async () => {
     try {
         const inAppUpdates = new SpInAppUpdates(
@@ -44,7 +46,7 @@ Application.on(Application.resumeEvent, async () => {
 
 });
 
-ReactNativeScript.start(React.createElement(MainStack, {}, null));
+ReactNativeScript.start(React.createElement(App, {}, null));
 
 // Do not place any code after the application has been started as it will not
 // be executed on iOS.

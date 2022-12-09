@@ -3,6 +3,17 @@ const webpack = require("@nativescript/webpack");
 module.exports = (env) => {
 	webpack.init(env);
 
+    webpack.chainWebpack(config => {
+            config.plugin('DefinePlugin').tap(args => {
+                Object.assign(args[0], {
+                    "process.env.TESTENV": JSON.stringify('SUCCESS'),
+                    "process.env": JSON.stringify('HELLO'),
+                })
+    
+                return args
+            })
+        });
+
     const resolvedConfig = webpack.resolveConfig()
     resolvedConfig.resolve.fallback = {
         ...resolvedConfig.resolve.fallback,
