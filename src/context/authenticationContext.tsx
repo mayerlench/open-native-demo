@@ -3,8 +3,6 @@ import React, {
     useState
 } from 'react'
 import type { FC, ReactNode } from 'react'
-import { assoc } from 'ramda'
-
 
 interface AuthState {
     isAuthenticated: boolean

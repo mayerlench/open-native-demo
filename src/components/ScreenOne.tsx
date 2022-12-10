@@ -26,7 +26,7 @@ export function ScreenOne({ navigation }: ScreenOneProps) {
             </label>
             <button
                 style={styles.button}
-                onTap={auth.login}
+                onTap={() => auth.login()}
             >
                LOGIN FLOW
             </button>
