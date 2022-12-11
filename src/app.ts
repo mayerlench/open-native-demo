@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactNativeScript from 'react-nativescript';
-import App from './components/App';
+import { MainStack } from './components/MainStack';
 
 // In NativeScript, the app.ts file is the entry point to your application. You
 // can use this file to perform app-level initialization, but the primary
@@ -12,12 +12,37 @@ import App from './components/App';
 Object.defineProperty(global, '__DEV__', { value: false });
 
 import { Application, isAndroid } from '@nativescript/core'
-import { NativeModules } from "@open-native/core"
-console.log(process.env.TESTENV) // uncomment this line to get env errorß
-console.log(process.env)
+import SpInAppUpdates, {
+    NeedsUpdateResponse,
+    IAUUpdateKind,
+    StartUpdateOptions,
+} from 'sp-react-native-in-app-updates';
+import App from './components/App';
+
+ console.log(process.env.TESTENV) // uncomment this line to get env errorß
+ console.log(process.env)
 
 Application.on(Application.resumeEvent, async () => {
-
+    try {
+        const inAppUpdates = new SpInAppUpdates(
+            false // isDebug
+        );
+        // curVersion is optional if you don't provide it will automatically take from the app using react-native-device-info
+        inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
+            if (result.shouldUpdate) {
+                let updateOptions: StartUpdateOptions = {};
+                if (isAndroid) {
+                    // android only, on iOS the user will be promped to go to your app store page
+                    updateOptions = {
+                        updateType: IAUUpdateKind.FLEXIBLE,
+                    };
+                }
+                inAppUpdates.startUpdate(updateOptions); // https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L78
+            }
+        });
+    } catch (e) {
+        console.log('error:', e);
+    }
 
 });
 
