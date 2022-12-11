@@ -1,7 +1,6 @@
 import { BaseNavigationContainer } from '@react-navigation/core';
 import * as React from "react";
 import { stackNavigatorFactory } from "react-nativescript-navigation";
-import useAuth from '../hooks/useAuth';
 
 import { ScreenOne } from "./ScreenOne";
 import { ScreenTwo } from "./ScreenTwo";
@@ -12,9 +11,14 @@ const StackNavigator = stackNavigatorFactory();
  * The main stack navigator for the whole app.
  */
 export const MainStack = () => {
+    const [isAuthenticated, setIsAuthenticated] = React.useState(false)
 
-    const auth = useAuth()
-    console.log('🚀 ~ file: MainStack.tsx:17 ~ MainStack ~ auth', auth)
+    React.useEffect(() => {
+        setTimeout(() => {
+                setIsAuthenticated(true)
+        }, 5000)
+    }, [])
+
     return (
         <BaseNavigationContainer>
             <StackNavigator.Navigator
@@ -26,11 +30,11 @@ export const MainStack = () => {
                     headerShown: true,
                 }}
             >
-                {!auth.isAuthenticated && <StackNavigator.Screen
+                {!isAuthenticated && <StackNavigator.Screen
                     name="One"
                     component={ScreenOne}
                 />}
-                {auth.isAuthenticated && <StackNavigator.Screen
+                {isAuthenticated && <StackNavigator.Screen
                     name="Two"
                     component={ScreenTwo}
                 />}

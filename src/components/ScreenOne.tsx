@@ -3,7 +3,6 @@ import { RouteProp } from '@react-navigation/core';
 import * as React from "react";
 import { StyleSheet } from "react-nativescript";
 import { FrameNavigationProp } from "react-nativescript-navigation";
-import useAuth from '../hooks/useAuth';
 
 import { MainStackParamList } from "../NavigationParamList";
 
@@ -13,8 +12,6 @@ type ScreenOneProps = {
 };
 
 export function ScreenOne({ navigation }: ScreenOneProps) {
-
-    const auth = useAuth()
 
     return (
         <flexboxLayout style={styles.container}>
@@ -26,7 +23,6 @@ export function ScreenOne({ navigation }: ScreenOneProps) {
             </label>
             <button
                 style={styles.button}
-                onTap={() => auth.login()}
             >
                LOGIN FLOW
             </button>

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactNativeScript from 'react-nativescript';
-import { MainStack } from './components/MainStack';
 
 // In NativeScript, the app.ts file is the entry point to your application. You
 // can use this file to perform app-level initialization, but the primary
@@ -17,7 +16,7 @@ import SpInAppUpdates, {
     IAUUpdateKind,
     StartUpdateOptions,
 } from 'sp-react-native-in-app-updates';
-import App from './components/App';
+import { MainStack } from './components/MainStack';
 
  console.log(process.env.TESTENV) // uncomment this line to get env errorß
  console.log(process.env)
@@ -46,7 +45,7 @@ Application.on(Application.resumeEvent, async () => {
 
 });
 
-ReactNativeScript.start(React.createElement(App, {}, null));
+ReactNativeScript.start(React.createElement(MainStack, {}, null));
 
 // Do not place any code after the application has been started as it will not
 // be executed on iOS.
