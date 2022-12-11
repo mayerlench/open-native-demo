@@ -1,25 +1,7 @@
 import * as React from 'react'
-import { registerElement } from 'react-nativescript'
-import { themer, installMixins } from '@nativescript-community/ui-material-core'
-import { install } from '@nativescript-community/ui-material-bottomsheet';
-import { registerTabNavigationBase } from '@nativescript-community/ui-material-core-tabs/react';
-import { registerBottomNavigation } from '@nativescript-community/ui-material-bottom-navigation/react';
 import { registerDrawer } from '@nativescript-community/ui-drawer/react';
 
 registerDrawer()
-
-install();
-registerTabNavigationBase();
-registerBottomNavigation();
-
-registerElement('nestedScrollView', () => require('@triniwiz/nativescript-nested-scrollview').NestedScrollView)
-registerElement('mdButton', () => require('@nativescript-community/ui-material-button').Button)
-registerElement('mdRipple', () => require('@nativescript-community/ui-material-ripple').Ripple)
-registerElement('mdTextField', () => require('@nativescript-community/ui-material-textfield').TextField)
-registerElement('mdTextView', () => require('@nativescript-community/ui-material-textview').TextView)
-registerElement('mdCardView', () => require('@nativescript-community/ui-material-cardview').CardView)
-
-installMixins()
 
 /* Controls react-nativescript log verbosity. true: all logs; false: only error logs. */
 Object.defineProperty(global, '__DEV__', { value: true })

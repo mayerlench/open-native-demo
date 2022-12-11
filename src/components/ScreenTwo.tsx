@@ -2,6 +2,7 @@ import { RouteProp } from '@react-navigation/core';
 import * as React from "react";
 import { StyleSheet } from "react-nativescript";
 import { FrameNavigationProp } from "react-nativescript-navigation";
+import { AppDrawerContext } from '../context/appDrawerContext';
 
 import { MainStackParamList } from "../NavigationParamList";
 
@@ -11,11 +12,19 @@ type ScreenTwoProps = {
 };
 
 export function ScreenTwo({ navigation, route }: ScreenTwoProps) {
+    const { showDrawer } = React.useContext(AppDrawerContext)
+   
     return (
         <flexboxLayout style={styles.container}>
             <label style={styles.text}>
                 You're viewing screen two!
             </label>
+            <button
+                style={styles.button}
+                onTap={showDrawer}
+            >
+                Open Drawer
+            </button>
             <button
                 style={styles.button}
                 onTap={() => navigation.goBack()}

@@ -1,11 +1,20 @@
 import { BaseNavigationContainer } from '@react-navigation/core';
 import * as React from "react";
 import { stackNavigatorFactory } from "react-nativescript-navigation";
+import { AppDrawerContextProvider } from '../context/appDrawerContext'
 
 import { ScreenOne } from "./ScreenOne";
 import { ScreenTwo } from "./ScreenTwo";
 
 const StackNavigator = stackNavigatorFactory();
+
+const AuthenticatedRoutes = () => (
+    <AppDrawerContextProvider>
+        <StackNavigator.Navigator>
+            <StackNavigator.Screen name="Two" component={ScreenTwo} />
+        </StackNavigator.Navigator>
+    </AppDrawerContextProvider>
+)
 
 /**
  * The main stack navigator for the whole app.
@@ -15,7 +24,7 @@ export const MainStack = () => {
 
     React.useEffect(() => {
         setTimeout(() => {
-                setIsAuthenticated(true)
+            setIsAuthenticated(true)
         }, 5000)
     }, [])
 
@@ -30,14 +39,17 @@ export const MainStack = () => {
                     headerShown: true,
                 }}
             >
+
                 {!isAuthenticated && <StackNavigator.Screen
                     name="One"
                     component={ScreenOne}
                 />}
+
                 {isAuthenticated && <StackNavigator.Screen
-                    name="Two"
-                    component={ScreenTwo}
+                    name="AuthenticatedRoutes"
+                    component={AuthenticatedRoutes}
                 />}
+
             </StackNavigator.Navigator>
         </BaseNavigationContainer>
 
