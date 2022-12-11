@@ -16,9 +16,6 @@ export function ScreenTwo({ navigation, route }: ScreenTwoProps) {
             <label style={styles.text}>
                 You're viewing screen two!
             </label>
-            <label style={styles.text}>
-                Message: {route.params.message}
-            </label>
             <button
                 style={styles.button}
                 onTap={() => navigation.goBack()}
