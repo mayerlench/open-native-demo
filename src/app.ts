@@ -1,51 +1,102 @@
-import * as React from 'react';
-import * as ReactNativeScript from 'react-nativescript';
+import * as React from 'react'
+import { registerElement } from 'react-nativescript'
+import { themer, installMixins } from '@nativescript-community/ui-material-core'
+import { install } from '@nativescript-community/ui-material-bottomsheet';
+import { registerTabNavigationBase } from '@nativescript-community/ui-material-core-tabs/react';
+import { registerBottomNavigation } from '@nativescript-community/ui-material-bottom-navigation/react';
+import { registerDrawer } from '@nativescript-community/ui-drawer/react';
 
-// In NativeScript, the app.ts file is the entry point to your application. You
-// can use this file to perform app-level initialization, but the primary
-// purpose of the file is to pass control to the app’s first module.
+registerDrawer()
 
-// Controls react-nativescript log verbosity.
-// - true: all logs;
-// - false: only error logs.
-Object.defineProperty(global, '__DEV__', { value: false });
+install();
+registerTabNavigationBase();
+registerBottomNavigation();
 
-import { Application, isAndroid } from '@nativescript/core'
+registerElement('nestedScrollView', () => require('@triniwiz/nativescript-nested-scrollview').NestedScrollView)
+registerElement('mdButton', () => require('@nativescript-community/ui-material-button').Button)
+registerElement('mdRipple', () => require('@nativescript-community/ui-material-ripple').Ripple)
+registerElement('mdTextField', () => require('@nativescript-community/ui-material-textfield').TextField)
+registerElement('mdTextView', () => require('@nativescript-community/ui-material-textview').TextView)
+registerElement('mdCardView', () => require('@nativescript-community/ui-material-cardview').CardView)
+
+installMixins()
+
+/* Controls react-nativescript log verbosity. true: all logs; false: only error logs. */
+Object.defineProperty(global, '__DEV__', { value: true })
+
+// allow property rippleColor on styles
+declare module "@nativescript/core/ui/styling/style" {
+    interface Style {
+        rippleColor: string;
+    }
+}
+/*
+In NativeScript, the app.ts file is the entry point to your application.
+You can use this file to perform app-level initialization, but the primary
+purpose of the file is to pass control to the app’s first module.
+*/
+
+import * as ReactNativeScript from 'react-nativescript'
+import { android as andApp, AndroidApplication, exitEvent } from '@nativescript/core/application'
+import { Application, ApplicationSettings, CoreTypes, Frame, isAndroid as isAnd, isAndroid, knownFolders, TouchManager } from '@nativescript/core'
 import SpInAppUpdates, {
     NeedsUpdateResponse,
     IAUUpdateKind,
     StartUpdateOptions,
-} from 'sp-react-native-in-app-updates';
+  } from 'sp-react-native-in-app-updates';
 import { MainStack } from './components/MainStack';
+  
 
- console.log(process.env.TESTENV) // uncomment this line to get env errorß
- console.log(process.env)
-
-Application.on(Application.resumeEvent, async () => {
-    try {
-        const inAppUpdates = new SpInAppUpdates(
-            false // isDebug
-        );
-        // curVersion is optional if you don't provide it will automatically take from the app using react-native-device-info
-        inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
-            if (result.shouldUpdate) {
-                let updateOptions: StartUpdateOptions = {};
-                if (isAndroid) {
-                    // android only, on iOS the user will be promped to go to your app store page
-                    updateOptions = {
-                        updateType: IAUUpdateKind.FLEXIBLE,
-                    };
-                }
-                inAppUpdates.startUpdate(updateOptions); // https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L78
-            }
-        });
-    } catch (e) {
-        console.log('error:', e);
+TouchManager.enableGlobalTapAnimations = true
+TouchManager.animations = {
+    down: {
+        scale: { x: 0.95, y: 0.95 },
+        duration: 120,
+        curve: CoreTypes.AnimationCurve.easeInOut
+    },
+    up: {
+        scale: { x: 1, y: 1 },
+        duration: 120,
+        curve: CoreTypes.AnimationCurve.easeInOut
     }
+}
 
+Application.on(Application.resumeEvent, () => {
+    
+      const inAppUpdates = new SpInAppUpdates(
+        false // isDebug
+      );
+      // curVersion is optional if you don't provide it will automatically take from the app using react-native-device-info
+      inAppUpdates.checkNeedsUpdate().then((result) => {
+        if (result.shouldUpdate) {
+          let updateOptions: StartUpdateOptions = {};
+          if (isAndroid) {
+            // android only, on iOS the user will be promped to go to your app store page
+            updateOptions = {
+              updateType: IAUUpdateKind.FLEXIBLE,
+            };
+          }
+          inAppUpdates.startUpdate(updateOptions); // https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L78
+        }
+      });
 });
 
-ReactNativeScript.start(React.createElement(MainStack, {}, null));
+if (isAnd) {
+    andApp.on(AndroidApplication.activityBackPressedEvent, (args: any) => {
+        const frame = Frame.topmost()
+        if (frame && !frame.canGoBack()) args.cancel = true
+    })
 
-// Do not place any code after the application has been started as it will not
-// be executed on iOS.
+    andApp.on(exitEvent, (args) => {
+        knownFolders.temp().clear()
+    })
+}
+
+ReactNativeScript.start(React.createElement(MainStack, {}, null))
+
+/*
+Do not place any code after the application has been started as it will not
+be executed on iOS.
+*/
+
+
