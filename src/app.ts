@@ -18,9 +18,9 @@ import SpInAppUpdates, {
     StartUpdateOptions,
 } from 'sp-react-native-in-app-updates';
 import App from './components/App';
+import { getVersion } from 'react-native-device-info';
 
- console.log(process.env.TESTENV) // uncomment this line to get env errorß
- console.log(process.env)
+console.log('version', getVersion())
 
 Application.on(Application.resumeEvent, async () => {
     try {
