@@ -7,7 +7,7 @@ import type { FC, ReactNode } from 'react'
 interface AuthState {
     isAuthenticated: boolean
     login: () => void,
-
+    logout: () => void,
 }
 
 interface AuthProviderProps {
@@ -16,6 +16,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthState>({
     isAuthenticated: false,
+    logout: () => { },
     login: () => { }
 })
 
@@ -23,7 +24,8 @@ const AuthContext = createContext<AuthState>({
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const [state, setState] = useState<AuthState>({
         isAuthenticated: false,
-        login: () => { }
+        login: () => { },
+        logout: () => { }
     })
 
     const login = () => {
@@ -33,12 +35,20 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         }))
     }
 
+    const logout = () => {
+        setState(state => ({
+            ...state,
+            isAuthenticated: false
+        }))
+    }
+
 
     return (
         <AuthContext.Provider
             value={{
                 ...state,
                 login,
+                logout
             }}
         >
             {children}

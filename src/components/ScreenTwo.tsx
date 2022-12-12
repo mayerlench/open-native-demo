@@ -2,7 +2,7 @@ import { RouteProp } from '@react-navigation/core';
 import * as React from "react";
 import { StyleSheet } from "react-nativescript";
 import { FrameNavigationProp } from "react-nativescript-navigation";
-
+import useAuth from '../hooks/useAuth'
 import { MainStackParamList } from "../NavigationParamList";
 
 type ScreenTwoProps = {
@@ -11,16 +11,17 @@ type ScreenTwoProps = {
 };
 
 export function ScreenTwo({ navigation, route }: ScreenTwoProps) {
+    const auth = useAuth()
     return (
         <flexboxLayout style={styles.container}>
             <label style={styles.text}>
-                You're viewing screen two!
+                You are authenticated
             </label>
             <button
                 style={styles.button}
-                onTap={() => navigation.goBack()}
+                onTap={auth.logout}
             >
-                Go back
+                Logout
             </button>
         </flexboxLayout>
     );

@@ -21,14 +21,15 @@ export function ScreenOne({ navigation }: ScreenOneProps) {
             <label
                 className="fas"
                 style={styles.text}
+                textWrap
             >
-                &#xf135; You're viewing screen one!
+                Login to go to authenticated screen
             </label>
             <button
                 style={styles.button}
                 onTap={() => auth.login()}
             >
-               LOGIN FLOW
+               LOGIN
             </button>
         </flexboxLayout>
     );
