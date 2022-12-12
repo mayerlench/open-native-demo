@@ -14,7 +14,6 @@ const StackNavigator = stackNavigatorFactory();
 export const MainStack = () => {
 
     const auth = useAuth()
-    console.log('🚀 ~ file: MainStack.tsx:17 ~ MainStack ~ auth', auth)
     return (
         <BaseNavigationContainer>
             <StackNavigator.Navigator
